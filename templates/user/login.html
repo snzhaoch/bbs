@@ -1,0 +1,75 @@
+{% extends "/base/base.html" %}
+{% block title %}登录/注册{% endblock %}
+{% block content %}
+<div class="panel">
+    <div class="header">
+        <span class="col_fade">注册： </span>
+    </div>
+
+    {% set l = {
+            '用户名长度需大于2': 'register_username',
+            '用户名已存在': 'register_username',
+            '用户名不存在': 'login_username',
+            '密码错误': 'login_password',
+        }
+    %}
+
+    <div class="inner no-padding">
+        <div class="cell">
+            <form class="form-horizontal" method="post" action="{{ url_for('.register') }}">
+                <div class="control-group">
+                    <label class="control-label">用户名</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" name="username" placeholder="请输入用户名，用户名长度大于2">
+                        {% if l.get(error)  == 'register_username' %}
+                            <span class="label label-warning"> {{ error }} </span>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div class="control-group">
+                    <label class="control-label">密码</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" name="password" placeholder="请输入密码">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <input type="submit" class="span-primary" value="注册">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="panel">
+    <div class="header">
+        <span class="col_fade">登录： </span>
+    </div>
+    <div class="inner no-padding">
+        <div class="cell">
+            <form class="form-horizontal" method="post" action="{{ url_for('.login') }}">
+                <div class="control-group">
+                    <label class="control-label">用户名</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" name="username" placeholder="请输入用户名">
+                        {% if l.get(error)  == 'login_username' %}
+                            <span class="label label-warning"> {{ error }} </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">密码</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" name="password" placeholder="请输入密码">
+                        {% if l.get(error)  == 'login_password' %}
+                            <span class="label label-warning"> {{ error }} </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <input type="submit" class="span-primary" value="登录">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

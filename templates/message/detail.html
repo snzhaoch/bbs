@@ -1,0 +1,43 @@
+{% extends "/base/base_logined.html" %}
+{% block title %} 私信 {% endblock %}
+{% block content %}
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">发送私信： </span>
+        </div>
+        <div class="inner no-padding">
+            <div class="cell">
+                <form method="post" action="{{ url_for('.add', token=crsf_token) }}">
+                    <input style="margin-bottom:0px; width:70%" type="text" name="content" placeholder="发送的内容">
+                    <input style="margin-bottom:0px;display:none" type="text" name="username" value="{{friend_name}}" placeholder="发送给的用户">
+                    <!-- <br/> -->
+                    <button class="span-primary submit_btn" type="submit">发送</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">与 {{friend_name}} 的对话列表： </span>
+        </div>
+
+        <div class="inner no-padding">
+            {% for m in messages %}
+            <div class="cell">
+                <a class="user_avatar pull-left" href="{{ url_for('user.user_detail',username=m.sender().username) }}">
+                    <img src="{{ m.sender().image }}" title="{{ m.sender().username }}">
+                </a>
+
+                <span class="last_time pull-right">
+                    {{ m.period_ct() }}
+                </span>
+
+                <div class="topic_title_wrapper">
+                    <a class="topic_title" href="{{ url_for('message.view', friend_name=m.friend().username) }}" title="{{ m.friend().username }}">{{m.sender().username}}</a>：{{ m.content }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

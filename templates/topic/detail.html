@@ -1,0 +1,151 @@
+{% extends "/base/base.html" %}
+{% block title %} 帖子详情 {{ topic.title }} {% endblock %}
+{% block style %}
+<link href="//cdn.bootcss.com/prism/1.8.0/themes/prism.css" rel="stylesheet">
+{% endblock %}
+{% block script %}
+<script src="//cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
+<script src="//cdn.bootcss.com/prism/1.8.0/prism.js"></script>
+<script src="//cdn.bootcss.com/prism/1.8.1/components/prism-python.min.js"></script>
+{% endblock %}
+{% block content %}
+    <div class='panel'>
+        <div class='header topic_header'>
+        <span class="topic_full_title">
+            {{ topic.title }}
+        </span>
+            <div class="changes">
+                <span>
+                    发布于 {{ topic_created_time }}
+                </span>
+                <span>
+                    {% set u = topic.user() %}
+                    作者
+                    <a href="{{ url_for('user.user_detail', username=u.username) }}">
+                        {{ u.username }}
+                    </a>
+                </span>
+                <span>
+                    {{ topic.views }} 次浏览
+                </span>
+                <span>
+                    来自 {{ topic.board().title }}
+                </span>
+                {% if current_user %}
+                    {% if current_user.id == topic.user_id or current_user.authority|int < 3 %}
+                        <a style="float:right" href="{{ url_for('topic.delete', id=topic.id, token=token)}}">删除话题</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class='inner topic'>
+            <div class='topic_content'>
+                <div class="markdown-text">{{ topic.content }}</div>
+            </div>
+        </div>
+    </div>
+
+    {% if topic.replies() | count > 0%}
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>
+                    <!-- 过滤器 -->
+                    {{ topic.replies() | count }} 回复
+                </span>
+            </div>
+            {% for r in topic.replies() %}
+                {% set u = r.user() %}
+                <div class='cell reply_area reply_item'>
+                    <div class='author_content'>
+                        <a href="{{ url_for('user.user_detail', username=u.username) }}" class="user_avatar">
+                            <img src="{{ r.user().image }}"
+                                 title="{{ r.user().username }}"/>
+                        </a>
+                        <div class='user_info'>
+                            <a class='dark reply_author'>
+                                {{ u.username }}
+                            </a>
+                            <a class="reply_time">
+                                {{ loop.index }}楼 / {{ loop.length }}楼 • {{ r.period_ct() }}
+                            </a>
+                        </div>
+                        <div style="display:inline" class="changes">
+                        {% if current_user %}
+                            {% if r.user_id == topic.user_id %}
+                            <span class="reply_by_author">作者</span>
+                            {% endif %}
+                            {% if current_user.id == r.user_id or current_user.authority|int < 3%}
+                                <a style="float:right" href="{{ url_for('reply.delete', id=r.id, topic_id=topic.id, token=token)}}">删除回复</a>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class='reply_content'>
+                        <div class="markdown-text">{{ r.content|safe}}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if current_user %}
+        <div class="panel">
+            <div class='header'>
+                <span class='col_fade'>
+                    添加回复
+                </span>
+            </div>
+            <div class="inner reply">
+                <form action="{{ url_for('reply.add', token=token) }}" method="post">
+                    <input type="hidden" name="topic_id" value="{{ topic.id }}">
+                    <!-- <textarea name="content"></textarea>
+                            <button>添加回复</button> -->
+                    <div class='markdown_editor in_editor'>
+                        <div class='markdown_in_editor'>
+                            <textarea class='editor' name='content' rows='20' placeholder='文章支持 Markdown 语法, 请注意标记代码'></textarea>
+                            <div class='editor_buttons'>
+                                <input type="submit" class='span-primary submit_btn' data-loading-text="提交中" value="提交">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+<script>
+    var e = function (sel) {
+        return document.querySelector(sel)
+    }
+
+    var es = function (sel) {
+        return document.querySelectorAll(sel)
+    }
+
+    var markContents = function () {
+        var contentDivs = es('.markdown-text')
+        for (var i = 0; i < contentDivs.length; i++) {
+            var contentDiv = contentDivs[i]
+            console.log('before', contentDiv.innerHTML)
+            var content = marked(contentDiv.textContent)
+            console.log(content)
+            contentDiv.innerHTML = content
+        }
+    }
+
+    var highlight = function () {
+        var code_list = es('pre code')
+        for (var i = 0; i < code_list.length; i++) {
+            var code = code_list[i]
+            code.className = code.className.replace('lang', 'language')
+        }
+    }
+
+    var __main = function () {
+        markContents()
+        highlight()
+    }
+
+    __main()
+</script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "/base/base_logined.html" %}
+{% block title %} 用户管理 {% endblock %}
+{% block content %}
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">用户列表： </span>
+        </div>
+
+        <div class="inner no-padding">
+            {% for user in users %}
+            <div class="cell">
+                <a style="margin-bottom:0px" class="user_avatar pull-left" href="{{ url_for('user.user_detail',username=user.username) }}">
+                    <img src="{{ user.image }}" title="{{ user.username }}">
+                </a>
+                <span style="margin-bottom:0px" class="reply_count pull-left">
+                    <a class="user_avatar" href="{{ url_for('user.user_detail',username=user.username) }}">
+                        <span class="username" title="用户名">
+                        {{ user.username }}
+                        </span>
+                    </a>
+                    <br/>
+                </span>
+                <span class="last_time">
+                     <!-- pull-right -->
+                     注册时间：
+                    {{ user.formatted_ct() }}
+                </span>
+                <form style="display:inline; margin-left:50px; margin-bottom:0px" method="post" action="{{ url_for('user.auth_edit', user_id=user.id, token=token) }}">
+                    {% if user.auth() == '超级管理员' %}
+                        <span class="tab-selector">用户权限：</span>
+                        <select style="margin-bottom:0px" name="authority" id="user" required>
+                            <option value="{{ 1 }}" selected>超级管理员</option>
+                        </select>
+                    {% else %}
+                        <span class="tab-selector">用户权限：</span>
+                        <select style="margin-bottom:0px" name="authority" id="user" required>
+                            {% for l, a in auth_dict.items() %}
+                                {% if user.auth() == a %}
+                                    <option value="{{ l }}" selected>{{ a }}</option>
+                                {% else %}
+                                    <option value="{{ l }}">{{ a }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <button class="span-primary submit_btn" type="submit">保存</button>
+                    {% endif %}
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

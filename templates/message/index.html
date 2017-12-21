@@ -1,0 +1,61 @@
+{% extends "/base/base_logined.html" %}
+{% block title %} 私信 {% endblock %}
+{% block content %}
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">发送私信： </span>
+        </div>
+        <div class="inner no-padding">
+            <div class="cell">
+                <form method="post" action="{{ url_for('.add', token=crsf_token) }}">
+                    <input style="margin-bottom:0px; width:70%" type="text" name="content" placeholder="发送的内容">
+                    <input style="margin-bottom:0px" type="text" name="username" placeholder="发送给的用户">
+                    <!-- <br/> -->
+                    <button class="span-primary submit_btn" type="submit">发送</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">私信列表： </span>
+        </div>
+
+        <div class="inner no-padding">
+            {% for m in messages %}
+                {% if m.sender_id==user.id or m.read %}
+                    <div class="cell">
+                {% else %}
+                    <div class="cell" style="background-color:#ffffcc">
+                {% endif %}
+
+                    <a class="user_avatar pull-left" href="{{ url_for('user.user_detail',username=m.friend().username) }}">
+                        <img src="{{ m.friend().image }}" title="{{ m.friend().username }}">
+                    </a>
+
+                    <span class="last_time pull-right">
+                        <a  href="{{ url_for('.view',friend_name=m.friend().username) }}">
+                            <span class="last_active_time">
+                                {% if m.unread_messages() | count == 0 %}
+                                    查看对话
+                                {% else %}
+                                    有 {{ m.unread_messages() | count }} 条新私信
+                                {% endif %}
+                            </span>
+                        </a>
+                        {{ m.period_ct() }}
+                    </span>
+
+                    <div class="topic_title_wrapper">
+                        {% if m.sender_id == user.id %}
+                            我发送给
+                        {% endif %}
+                        <a class="topic_title" href="{{ url_for('message.view', friend_name=m.friend().username) }}" title="{{ m.friend().username }}">{{m.friend().username}}</a>：{{ m.content }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

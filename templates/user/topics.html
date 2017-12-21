@@ -1,0 +1,94 @@
+{% extends "/base/base.html" %}
+{% block title %}{{ user.username}}最近创建的话题{% endblock %}
+{% block content %}
+    <div class="panel">
+        <div class="header">
+            <ul class="breadcrumb">
+                <li><a href="{{ url_for('topic.index') }}">主页</a><span class="divider">/</span></li>
+                <li><a href="{{ url_for('.user_detail', username=user.username) }}">{{user.username}}的主页</a><span class="divider">/</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">最近创建的话题</span>
+        </div>
+        <div class="inner no-padding">
+            <div id="topic_list">
+                {% for topic in topics %}
+                <div class="cell">
+
+                    <a class="user_avatar pull-left" href="{{ url_for('.user_detail',username=user.username) }}">
+                                <img src="{{ user.image }}" title="{{ user.username }}">
+                            </a>
+
+                    <span class="reply_count pull-left">
+                                <span class="count_of_replies" title="回复数">
+                                  {{ topic.replies() | count }}
+                                </span>
+                    <span class="count_seperator">/</span>
+                    <span class="count_of_visits" title="点击数">
+                                  {{ topic.views }}
+                                </span>
+                    </span>
+
+
+                    <a class="last_time pull-right" href="{{ url_for('.user_detail',username=topic.reply_last().user().username) }}">
+                                <img class="user_small_avatar" src="{{ topic.reply_last().user().image }}">
+                                <span class="last_active_time">{{ topic.reply_last().period_ct() }}</span>
+                            </a>
+
+
+                    <div class="topic_title_wrapper">
+
+
+                        <a class="topic_title" href="{{ url_for('topic.detail', id=topic.id) }}" title="{{ topic.title }}">
+                                    {{ topic.title }}
+                                </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="pagination" current_page="{{ page }}">
+                <ul>
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=1)}}">«</a></li>
+                    {% if page|int >3 and pages|int>5 %}
+                    <li><a>...</a></li>
+                    {% endif %} {% if page==pages and pages>=5 %}
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page-4)}}">{{ page-4 }}</a></li>
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page-3)}}">{{ page-3 }}</a></li>
+                    {% elif page==pages and pages==4 %}
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page-3)}}">{{ page-3 }}</a></li>
+                    {% endif %} {% if page==pages-1 and pages>=5 %}
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page-3)}}">{{ page-3 }}</a></li>
+                    {% endif %} {% if page>=3 %}
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page-2)}}">{{ page-2 }}</a></li>
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page-1)}}">{{ page-1 }}</a></li>
+                    {% elif page==2 %}
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page-1)}}">{{ page-1 }}</a></li>
+                    {% endif %}
+
+                    <li><a class="disabled active" href="{{ url_for('user.user_topics',username=user.username, page=page) }}">{{ page }}</a></li>
+
+                    {% if pages-page>=2 %}
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page+1)}}">{{ page+1 }}</a></li>
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page+2)}}">{{ page+2 }}</a></li>
+                    {% elif pages-page==1 %}
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page+1)}}">{{ page+1 }}</a></li>
+                    {% endif %} {% if page==1 and pages>=5 %}
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page+3)}}">{{ page+3 }}</a></li>
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page+4)}}">{{ page+4 }}</a></li>
+                    {% elif page==1 and pages==4 %}
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page+3)}}">{{ page+3 }}</a></li>
+                    {% endif %} {% if page==2 and pages>=5 %}
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=page+3)}}">{{ page+3 }}</a></li>
+                    {% endif %} {% if (pages-page)>2 and pages>5 %}
+                    <li><a>...</a></li>
+                    {% endif %}
+                    <li><a href="{{url_for('user.user_topics',username=user.username, page=pages)}}">»</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

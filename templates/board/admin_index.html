@@ -1,0 +1,39 @@
+{% extends "/base/base_logined.html" %}
+{% block title %} 板块管理 {% endblock %}
+{% block content %}
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">添加板块： </span>
+        </div>
+        <div class="inner no-padding">
+            <div class="cell">
+                <form method="post" action="{{ url_for('board.add', token=crsf_token) }}">
+                    <input style="margin-bottom:0px" type="text" name="title" placeholder="要添加的板块名称">
+                    <button class="span-primary submit_btn" type="submit">添加</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="header">
+            <span class="col_fade">板块列表： </span>
+        </div>
+
+        <div class="inner no-padding">
+            {% for b in boards %}
+            <div class="cell">
+                <span class="last_time pull-right">
+                    {{ b.period_ct() }}
+                </span>
+
+                <form style="display:inline" method="post" action="{{ url_for('board.update', token=crsf_token, id=b.id) }}">
+                    <input style="margin-bottom:0px" type="text" name="title" value="{{ b.title }}" placeholder="修改后的板块名称">
+                    <button class="span-primary submit_btn" type="submit">保存</button>
+                </form>
+                <a style="margin-left:50px;color:white" href="{{ url_for('board.delete', token=crsf_token, id=b.id)}}" class="span-primary submit_btn">删除</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

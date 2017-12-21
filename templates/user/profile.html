@@ -1,0 +1,111 @@
+{% extends "base/base.html" %}
+{% block title %}{{ user.username }}的个人主页{% endblock %}
+{% block content %}
+<div class="panel">
+    <div class="header">
+        <ul class="breadcrumb">
+            <li><a href="{{ url_for('topic.index') }}">主页</a><span class="divider">/</span></li>
+        </ul>
+    </div>
+    <div class="inner userinfo">
+        <div class="user_big_avatar">
+            <img src="{{ user.image }}" class="user_avatar" title="{{ user.username }}">
+        </div>
+        <a class="dark">{{ user.username }}</a>
+        <p></p>
+        <br/>
+        <p class="col_fade">注册时间： {{ user_created_time }}</p>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="header">
+        <span class="col_fade">最近创建的话题</span>
+    </div>
+    {% if topics %}
+        {% for topic in topics %}
+        <div class="cell">
+
+            <a class="user_avatar pull-left" href="{{ url_for('.user_detail',username=user.username) }}">
+                <img src="{{ user.image }}" title="{{ user.username }}">
+            </a>
+
+            <span class="reply_count pull-left">
+                <span class="count_of_replies" title="回复数">
+                  {{ topic.replies() | count }}
+                </span>
+                <span class="count_seperator">/</span>
+                <span class="count_of_visits" title="点击数">
+                  {{ topic.views }}
+                </span>
+            </span>
+
+
+            <a class="last_time pull-right" href="{{ url_for('.user_detail',username=topic.reply_last().user().username) }}">
+                <img class="user_small_avatar" src="{{ topic.reply_last().user().image }}">
+                <span class="last_active_time">{{ topic.reply_last().period_ct() }}</span>
+            </a>
+
+
+            <div class="topic_title_wrapper">
+                <a class="topic_title" href="{{ url_for('topic.detail', id=topic.id) }}" title="{{ topic.title }}">
+                    {{ topic.title }}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="cell">
+            <span class="col_fade">无话题</span>
+        </div>
+    {% endif %}
+
+    <div class="cell more">
+        <a class="dark" href="{{ url_for('user.user_topics', username=user.username)}}">查看更多»</a>
+    </div>
+
+</div>
+
+<div class="panel">
+    <div class="header">
+        <span class="col_fade">最近参与的话题</span>
+    </div>
+    {% if replys_topic %}
+        {% for topic in replys_topic %}
+        <div class="cell">
+            <a class="user_avatar pull-left" href="{{ url_for('.user_detail',username=topic.user().username) }}">
+                                <img src="{{ topic.user().image }}" title="{{ topic.user().username }}">
+                            </a>
+            <span class="reply_count pull-left">
+                                    <span class="count_of_replies" title="回复数">
+                                      {{ topic.replies() | count }}
+                                    </span>
+            <span class="count_seperator">/</span>
+            <span class="count_of_visits" title="点击数">
+                                      {{ topic.views }}
+                                    </span>
+            </span>
+
+            <a class="last_time pull-right" href="https://cnodejs.org/topic/59e9a267e9a9601c41e7b418#59eab39170ea7fb830369d58">
+                                    <img class="user_small_avatar" src="{{ topic.reply_last().user().image }}">
+                                    <span class="last_active_time">{{ topic.reply_last().period_ct() }}</span>
+                                </a>
+
+            <div class="topic_title_wrapper">
+                <a class="topic_title" href="{{ url_for('topic.detail', id=topic.id) }}" title="{{ topic.title }}">
+                                    {{ topic.title }}
+                                </a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="cell">
+            <span class="col_fade">无话题</span>
+        </div>
+    {% endif %}
+    <div class="cell more">
+        <a class="dark" href="{{ url_for('user.user_replies',username=user.username)}}">查看更多»</a>
+    </div>
+
+</div>
+{% endblock %}
