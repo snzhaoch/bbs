@@ -1,7 +1,7 @@
 server {
     listen 80;
 
-    location /uploads {
+    location /user/image {
         alias /home/ubuntu/bbs/user_image;
     }
     location /static {

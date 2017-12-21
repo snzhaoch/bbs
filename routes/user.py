@@ -295,7 +295,7 @@ def add_img():
 
 
 @main.route("/image/<filename>")
-def uploads(filename):
+def load_image(filename):
     # nginx 缓存静态文件
     return send_from_directory('user_image', filename)
 
