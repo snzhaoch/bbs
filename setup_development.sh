@@ -9,7 +9,7 @@
 echo "sudo su" >> /home/ubuntu/.bashrc
 
 # ${source_root} 是代码所在目录
-source_root='/home/bbs'
+source_root='/home/ubuntu/bbs'
 
 echo "cd ${source_root}" >> /root/.bashrc
 
