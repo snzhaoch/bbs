@@ -15,8 +15,8 @@ def configured_app():
     # 此 secret_key 不能上传到 Github，代码使用者可以自行设置
     app.secret_key = secret_key
 
+    app.register_blueprint(topic_routes)
     app.register_blueprint(user_routes, url_prefix='/user')
-    app.register_blueprint(topic_routes, url_prefix='/topic')
     app.register_blueprint(reply_routes, url_prefix='/reply')
     app.register_blueprint(board_routes, url_prefix='/board')
     app.register_blueprint(message_routes, url_prefix='/message')

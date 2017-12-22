@@ -3,7 +3,7 @@
 {% block content %}
     <div class="panel">
         <div class="header">
-            <a href="/topic" class="topic-tab current-tab">
+            <a href="{{ url_for('topic.index') }}" class="topic-tab current-tab">
                     全部
             </a>
             {% for b in bs %}

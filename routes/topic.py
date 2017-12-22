@@ -71,7 +71,7 @@ def index():
     )
 
 
-@main.route('/<string:id>')
+@main.route('/topic/<string:id>')
 def detail(id):
     """
     话题详情页面
@@ -92,7 +92,7 @@ def detail(id):
     )
 
 
-@main.route("/add", methods=["POST"])
+@main.route("/topic/add", methods=["POST"])
 @csrf_required
 def add():
     """
@@ -104,7 +104,7 @@ def add():
     return redirect(url_for('.index'))
 
 
-@main.route("/delete")
+@main.route("/topic/delete")
 @csrf_required
 def delete():
     """
@@ -115,7 +115,7 @@ def delete():
     return redirect(url_for('.index'))
 
 
-@main.route("/new")
+@main.route("/topic/new")
 def new():
     """
     发布话题页面
