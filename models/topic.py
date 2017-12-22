@@ -21,9 +21,22 @@ class Topic(Model):
             ('content', str, ''),
             ('user_id', str, 0),
             ('board_id', str, 0),
+            ('top', bool, False),
+            ('test', bool, False),
             ('lastreply_time', int, int(time.time())),
         ]
         return names
+
+    @classmethod
+    def new(cls, form, **kwargs):
+        """
+        新增一个话题，并将话题 test 字段与所属板块同步
+        """
+        m = super().new(form, **kwargs)
+        board = m.board()
+        m.test = board.test
+        m.save()
+        return m
 
     @classmethod
     def find(cls, id):
@@ -94,3 +107,17 @@ class Topic(Model):
         """
         u = User.find(id=self.user_id)
         return u
+
+    def set_top(self):
+        """
+        设置话题置顶
+        """
+        self.top = True
+        self.save()
+
+    def cancel_top(self):
+        """
+        取消话题置顶
+        """
+        self.top = False
+        self.save()

@@ -18,6 +18,8 @@ main = Blueprint('topic', __name__)
     
 管理员在这里可以
     删除话题
+    设置置顶
+    取消置顶
 """
 
 
@@ -37,21 +39,56 @@ def index():
     skip = limit * (page - 1)
 
     board_id = request.args.get('board_id', '-1')
+    print("board_ididid",board_id)
+    # 首页不展示测试板块内容
     if board_id == '-1':
-        ms = Topic.find_lss(
+        tm = Topic.find_lss(
             limit=limit,
             skip=skip,
-            sort=('lastreply_time', -1)
+            sort=('lastreply_time', -1),
+            top=True,
+            test=False,
         )
-        topic_count = Topic.count()
-    else:
         ms = Topic.find_lss(
             limit=limit,
             skip=skip,
             sort=('lastreply_time', -1),
-            board_id=board_id
+            top=False,
+            test=False
+        )
+        topic_count = Topic.count()
+        print('1tmtmtm', tm)
+        print('1msmsms', ms)
+    else:
+        # 每个测试板块置顶消息独立
+        board = Board.find(board_id)
+        if board.test is False:
+            tm = Topic.find_lss(
+                limit=limit,
+                skip=skip,
+                sort=('lastreply_time', -1),
+                top=True,
+                test=False
+            )
+        else:
+            tm = Topic.find_lss(
+                limit=limit,
+                skip=skip,
+                sort=('lastreply_time', -1),
+                board_id=board_id,
+                top=True,
+                test=True
+            )
+        ms = Topic.find_lss(
+            limit=limit,
+            skip=skip,
+            sort=('lastreply_time', -1),
+            board_id=board_id,
+            top=False
         )
         topic_count = Topic.count(board_id=board_id)
+        print('2tmtmtm', tm)
+        print('2msmsms', ms)
     if topic_count % limit == 0:
         pages = topic_count // limit
     else:
@@ -62,6 +99,7 @@ def index():
     return render_template(
         "topic/index.html",
         current_user=c_u,
+        tm=tm,
         ms=ms,
         ts=ts,
         bs=bs,
@@ -100,8 +138,8 @@ def add():
     """
     form = request.form
     u = current_user()
-    Topic.new(form, user_id=u.id)
-    return redirect(url_for('.index'))
+    t = Topic.new(form, user_id=u.id)
+    return redirect(url_for('.detail', id=t.id))
 
 
 @main.route("/topic/delete")
@@ -134,3 +172,25 @@ def new():
         current_user=c_u,
         token=token,
     )
+
+
+@main.route("/topic/set_top/<string:id>")
+@csrf_required
+def set_top(id):
+    """
+    设置话题置顶
+    """
+    topic = Topic.find_by(id=id)
+    topic.set_top()
+    return redirect(url_for('.detail', id=id))
+
+
+@main.route("/topic/cancel_top/<string:id>")
+@csrf_required
+def cancel_top(id):
+    """
+    取消话题置顶
+    """
+    topic = Topic.find_by(id=id)
+    topic.cancel_top()
+    return redirect(url_for('.detail', id=id))

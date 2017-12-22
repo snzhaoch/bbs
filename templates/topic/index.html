@@ -14,6 +14,35 @@
         </div>
         <div class="inner no-padding">
             <div id="topic_list">
+                {% for t in tm %}
+                    <div class="cell">
+                        <a class="user_avatar pull-left" href="{{ url_for('user.user_detail', username=t.user().username) }}">
+                                    <img src="{{ t.user().image }}" title="{{ t.user().username }}">
+                                </a>
+                            <span class="reply_count pull-left">
+                                    <span class="count_of_replies" title="回复数">
+                                        {{ t.replies() | count }}
+                                    </span>
+                            <span class="count_seperator">/</span>
+                            <span class="count_of_visits" title="点击数">
+                                        {{ t.views }}
+                                    </span>
+                            </span>
+                            <a class="last_time pull-right" href="{{ url_for('user.user_detail', username=t.reply_last().user().username) }}">
+                                    <img class="user_small_avatar" src="{{ t.reply_last().user().image }}">
+                                    <span class="last_active_time">{{ t.reply_last().period_ct() }}</span>
+                                </a>
+                            <div class="topic_title_wrapper">
+                                <span class="put_top">置顶</span>
+                                <a class="topic_title" href="{{ url_for('topic.detail', id=t.id) }}">
+                                    {{ t.title }}
+                                </a>
+                            </div>
+                            <!-- <a class="topic_title" href="{# url_for('topic.delete', id=t.id, token=token) #}">
+                                删除
+                            </a> -->
+                    </div>
+                {% endfor %}
                 {% for t in ms %}
                     <div class="cell">
                         <a class="user_avatar pull-left" href="{{ url_for('user.user_detail', username=t.user().username) }}">

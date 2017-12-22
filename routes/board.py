@@ -45,7 +45,7 @@ def index():
 def add():
     form = request.form
     Board.new(form)
-    return redirect(url_for('topic.index'))
+    return redirect(url_for('board.index'))
 
 
 @main.route("/update", methods=["POST"])
