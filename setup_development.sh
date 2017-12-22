@@ -37,6 +37,7 @@ ln -s -f ${source_root}/bbs.nginx /etc/nginx/sites-enabled/bbs
 
 # 设置文件夹权限给 nginx 用
 chmod o+xr /home
+chmod o+xr /home/ubuntu
 chmod -R o+xr ${source_root}
 
 service supervisor restart
