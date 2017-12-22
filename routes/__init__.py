@@ -21,7 +21,8 @@ def current_user():
     return u
 
 
-r = redis.StrictRedis()
+# redis 自动 decode，否则数据取出来是 bytes
+r = redis.StrictRedis(charset="utf-8", decode_responses=True)
 # csrf_tokens = dict()
 
 def csrf_required(func):
