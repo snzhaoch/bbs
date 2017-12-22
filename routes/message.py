@@ -46,6 +46,7 @@ def index():
     '''
     用户私信列表
     '''
+    receiver_name = request.args.get('receiver_name', '')
     u = current_user()
     chat_ids = Chat.find_chat_ids(u.id)
     log('chat_ids',chat_ids)
@@ -57,6 +58,7 @@ def index():
         "message/index.html",
         user=u,
         messages=messages,
+        receiver_name=receiver_name,
         crsf_token=crsf_token,
         ts=ts,
     )

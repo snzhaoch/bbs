@@ -24,7 +24,7 @@ def period_time(time_unix):
     period_day = int((now_time - time_unix) / 60 / 60 // 24)
     period_hour = int((now_time - time_unix) / 60 // 60)
     period_minute = int((now_time - time_unix) // 60)
-    period_second = int((now_time - time_unix))
+    period_second = int((now_time - time_unix)) + 1
     period = {'年': period_year, '个月': period_month, '天': period_day, '小时': period_hour, '分钟': period_minute}
     for s, p in period.items():
         if p is not 0:

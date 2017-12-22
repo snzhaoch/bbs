@@ -42,8 +42,11 @@ class User(Model):
         """
         name = form['username']
         password = form['password']
+        invalid_list = ['admin', 'signin', 'logout', 'edit']
         if len(name) <= 2:
             return '用户名长度需大于2'
+        elif name in invalid_list:
+            return '非法用户名'
         elif User.find_by(username=name) is not None:
             return '用户名已存在'
         else:
@@ -52,7 +55,7 @@ class User(Model):
                 username=name,
                 password=password,
             ))
-            if name == 'admin':
+            if name == 'administrator':
                 u.authority = '1'
                 u.save()
             return u

@@ -14,6 +14,11 @@
         <a class="dark">{{ user.username }}</a>
         <p></p>
         <br/>
+        {% if current_user and current_user.username != user.username%}
+        <a  href="{{ url_for('message.index',receiver_name=user.username)}}" id="create_topic_btn">
+            <span class="span-success">发私信</span>
+        </a>
+        {% endif %}
         <p class="col_fade">注册时间： {{ user_created_time }}</p>
     </div>
 </div>
@@ -54,15 +59,16 @@
             </div>
         </div>
         {% endfor %}
+        <div class="cell more">
+            <a class="dark" href="{{ url_for('user.user_topics', username=user.username)}}">查看更多»</a>
+        </div>
     {% else %}
         <div class="cell">
             <span class="col_fade">无话题</span>
         </div>
     {% endif %}
 
-    <div class="cell more">
-        <a class="dark" href="{{ url_for('user.user_topics', username=user.username)}}">查看更多»</a>
-    </div>
+
 
 </div>
 
@@ -98,14 +104,15 @@
             </div>
         </div>
         {% endfor %}
+        <div class="cell more">
+            <a class="dark" href="{{ url_for('user.user_replies',username=user.username)}}">查看更多»</a>
+        </div>
     {% else %}
         <div class="cell">
             <span class="col_fade">无话题</span>
         </div>
     {% endif %}
-    <div class="cell more">
-        <a class="dark" href="{{ url_for('user.user_replies',username=user.username)}}">查看更多»</a>
-    </div>
+
 
 </div>
 {% endblock %}

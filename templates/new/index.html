@@ -7,32 +7,40 @@
         </div>
 
         <div class="inner no-padding">
-            {% for n in news %}
-                {% if n.read %}
-                    <div class="cell">
-                {% else %}
-                    <div class="cell" style="background-color:#ffffcc">
-                {% endif %}
+            {% if news != [] %}
+                {% for n in news %}
+                    {% if n.read %}
+                        <div class="cell">
+                    {% else %}
+                        <div class="cell" style="background-color:#ffffcc">
+                    {% endif %}
 
-                    <a class="user_avatar pull-left" href="{{ url_for('user.user_detail',username=n.sender().username) }}">
-                        <img src="{{ n.sender().image }}" title="{{ n.sender().username }}">
-                    </a>
-                    <span class="last_time pull-right">
-                        {{ n.period_ct() }}
-                    </span>
+                        <a class="user_avatar pull-left" href="{{ url_for('user.user_detail',username=n.sender().username) }}">
+                            <img src="{{ n.sender().image }}" title="{{ n.sender().username }}">
+                        </a>
+                        <span class="last_time pull-right">
+                            {{ n.period_ct() }}
+                        </span>
 
-                    <div class="topic_title_wrapper">
-                        {% if n.receiver().id == n.topic().user_id %}
-                            回复了你的话题
-                            <a class="topic_title" href="{{ url_for('new.view', id=n.id) }}" title="{{ n.topic().title }}">{{ n.topic().title }}</a>
-                        {% else %}
-                            在话题
-                            <a class="topic_title" href="{{ url_for('new.view', id=n.id) }}" title="{{ n.topic().title }}">{{ n.topic().title }}</a>
-                            中 @ 了你
-                        {% endif %}
+                        <div class="topic_title_wrapper">
+                            {% if n.receiver().id == n.topic().user_id %}
+                                回复了你的话题
+                                <a class="topic_title" href="{{ url_for('new.view', id=n.id) }}" title="{{ n.topic().title }}">{{ n.topic().title }}</a>
+                            {% else %}
+                                在话题
+                                <a class="topic_title" href="{{ url_for('new.view', id=n.id) }}" title="{{ n.topic().title }}">{{ n.topic().title }}</a>
+                                中 @ 了你
+                            {% endif %}
+                        </div>
                     </div>
+                {% endfor %}
+            {% else %}
+                <div class="cell">
+                    <span>
+                        无消息
+                    </span>
                 </div>
-            {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

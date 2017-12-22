@@ -5,84 +5,94 @@
         <div class="header">
             <span class="col_fade">内容搜索结果： {{content}} </span>
         </div>
+        {% if topics != [] %}
+            {% for topic in topics %}
+            <div class="cell">
 
-        {% for topic in topics %}
-        <div class="cell">
-
-            <a class="user_avatar pull-left" href="{{ url_for('user.user_detail',username=topic.user().username) }}">
-            <img src="{{ topic.user().image }}" title="{{ topic.user().username }}">
-        </a>
-
-            <span class="reply_count pull-left">
-            <span class="count_of_replies" title="回复数">
-              {{ topic.replies() | count }}
-            </span>
-            <span class="count_seperator">/</span>
-            <span class="count_of_visits" title="点击数">
-              {{ topic.views }}
-            </span>
-            </span>
-
-
-            <a class="last_time pull-right" href="{{ url_for('user.user_detail',username=topic.reply_last().user().username) }}">
-            <img class="user_small_avatar" src="{{ topic.reply_last().user().image }}">
-            <span class="last_active_time">{{ topic.reply_last().period_ct() }}</span>
-        </a>
-
-
-            <div class="topic_title_wrapper">
-
-
-                <a class="topic_title" href="{{ url_for('topic.detail', id=topic.id) }}" title="{{ topic.title }}">
-                {{ topic.title }}
+                <a class="user_avatar pull-left" href="{{ url_for('user.user_detail',username=topic.user().username) }}">
+                <img src="{{ topic.user().image }}" title="{{ topic.user().username }}">
             </a>
+
+                <span class="reply_count pull-left">
+                <span class="count_of_replies" title="回复数">
+                  {{ topic.replies() | count }}
+                </span>
+                <span class="count_seperator">/</span>
+                <span class="count_of_visits" title="点击数">
+                  {{ topic.views }}
+                </span>
+                </span>
+
+
+                <a class="last_time pull-right" href="{{ url_for('user.user_detail',username=topic.reply_last().user().username) }}">
+                <img class="user_small_avatar" src="{{ topic.reply_last().user().image }}">
+                <span class="last_active_time">{{ topic.reply_last().period_ct() }}</span>
+            </a>
+
+
+                <div class="topic_title_wrapper">
+
+
+                    <a class="topic_title" href="{{ url_for('topic.detail', id=topic.id) }}" title="{{ topic.title }}">
+                    {{ topic.title }}
+                </a>
+                </div>
             </div>
-        </div>
-        {% endfor %}
+            {% endfor %}
 
-        <div class="cell more">
-            <a class="dark" href="{{ url_for('search.search_topics',content=content) }}">查看更多»</a>
-        </div>
-
+            <div class="cell more">
+                <a class="dark" href="{{ url_for('search.search_topics',content=content) }}">查看更多»</a>
+            </div>
+            {% else %}
+            <div class="cell">
+                <span class="col_fade">无相关话题</span>
+            </div>
+        {% endif %}
     </div>
 
     <div class="panel">
         <div class="header">
             <span class="col_fade">用户搜索结果： {{content}}</span>
         </div>
-        {% for user in users %}
-        <div class="cell">
-            <a class="user_avatar pull-left" href="{{ url_for('user.user_detail',username=user.username) }}">
-                <img src="{{ user.image }}" title="{{ user.username }}">
-            </a>
-            <span class="reply_count pull-left">
-                <a class="user_avatar" href="{{ url_for('user.user_detail',username=user.username) }}">
-                    <span class="username" title="用户名">
-                    {{ user.username }}
-                    </span>
+        {% if users != [] %}
+            {% for user in users %}
+            <div class="cell">
+                <a class="user_avatar pull-left" href="{{ url_for('user.user_detail',username=user.username) }}">
+                    <img src="{{ user.image }}" title="{{ user.username }}">
                 </a>
-                <!-- <span class="count_seperator">/</span> -->
-                <br/>
-            </span>
-            <span class="signature" title="个性签名">
-              {{ user.signature }}
-            </span>
-            <!-- <a class="last_time pull-right" href="https://cnodejs.org/topic/59e9a267e9a9601c41e7b418#59eab39170ea7fb830369d58">
-                <img class="user_small_avatar" src="{#{ topic.reply_last().user().image }}">
-                <span class="last_active_time">{{ topic.reply_last().period_ct() }#}</span>
-            </a>
+                <span class="reply_count pull-left">
+                    <a class="user_avatar" href="{{ url_for('user.user_detail',username=user.username) }}">
+                        <span class="username" title="用户名">
+                        {{ user.username }}
+                        </span>
+                    </a>
+                    <!-- <span class="count_seperator">/</span> -->
+                    <br/>
+                </span>
+                <span class="signature" title="个性签名">
+                  {{ user.signature }}
+                </span>
+                <!-- <a class="last_time pull-right" href="https://cnodejs.org/topic/59e9a267e9a9601c41e7b418#59eab39170ea7fb830369d58">
+                    <img class="user_small_avatar" src="{#{ topic.reply_last().user().image }}">
+                    <span class="last_active_time">{{ topic.reply_last().period_ct() }#}</span>
+                </a>
 
-            <div class="topic_title_wrapper">
-                <a class="topic_title" href="{#{ url_for('topic.detail', id=topic.id) }}" title="{{ topic.title }}">
-                {{ topic.title }#}
-            </a>
-            </div> -->
-        </div>
-        {% endfor %}
+                <div class="topic_title_wrapper">
+                    <a class="topic_title" href="{#{ url_for('topic.detail', id=topic.id) }}" title="{{ topic.title }}">
+                    {{ topic.title }#}
+                </a>
+                </div> -->
+            </div>
+            {% endfor %}
 
-        <div class="cell more">
-            <a class="dark" href="{{ url_for('search.search_users',content=content) }}">查看更多»</a>
-        </div>
+            <div class="cell more">
+                <a class="dark" href="{{ url_for('search.search_users',content=content) }}">查看更多»</a>
+            </div>
+        {% else %}
+            <div class="cell">
+                <span class="col_fade">无相关用户</span>
+            </div>
+        {% endif %}
 
     </div>
 {% endblock %}

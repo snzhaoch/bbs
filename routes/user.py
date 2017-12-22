@@ -278,7 +278,6 @@ def valid_suffix(suffix):
 def add_img():
     """
     上传图片
-    :return:
     """
     u = current_user()
     file = request.files['avatar']
@@ -288,10 +287,10 @@ def add_img():
         filename = '{}.{}.{}'.format(u.username, str(uuid.uuid4()), suffix)
         file.save(os.path.join('user_image', filename))
         User.update(u.id, dict(
-            user_image='/image/' + filename
+            image='/user/image/' + filename
         ))
 
-    return redirect(url_for(".user_detail", username=u.username))
+    return redirect(url_for(".user_edit"))
 
 
 @main.route("/image/<filename>")
