@@ -18,15 +18,20 @@ main = Blueprint('reply', __name__)
 """
 
 
-def users_from_content(content):
+def users_from_content(content, topic_user):
     # 不能解决 @在文本中间 比如 123@name abc，这样就不能获得name了
     parts = content.split(' ')
     users = []
+    exist = False
     for p in parts:
         if p.startswith('@'):
             username = p[1:]
             u = User.find_by(username=username)
             users.append(u)
+            if u.id == topic_user.id:
+                exist = True
+    if exist is False:
+        users.append(topic_user)
     return users
 
 
@@ -49,10 +54,9 @@ def add():
     content = form['content']
     topic_id = form['topic_id']
     # 获取 reply 中 @ 的用戶
-    users = users_from_content(content)
     topic_user = Topic.find_by(id=topic_id).user()
-    if topic_user not in users:
-        users.append(topic_user)
+    users = users_from_content(content, topic_user)
+    # 自己回复自己话题不会收到消息
     if topic_user.id == u.id:
         users.remove(topic_user)
     send_news(u, users, topic_id)

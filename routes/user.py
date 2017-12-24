@@ -331,5 +331,8 @@ def auth_edit():
     """
     user_id = request.args.get('user_id')
     form = request.form
-    User.update(user_id, form)
+    user_auth = User.find(user_id).authority
+    # 禁止更改超级管理员权限
+    if user_auth != '1':
+        User.update(user_id, form)
     return redirect(url_for('.admin'))

@@ -39,7 +39,6 @@ def index():
     skip = limit * (page - 1)
 
     board_id = request.args.get('board_id', '-1')
-    print("board_ididid",board_id)
     # 首页不展示测试板块内容
     if board_id == '-1':
         tm = Topic.find_lss(
@@ -57,8 +56,6 @@ def index():
             test=False
         )
         topic_count = Topic.count()
-        print('1tmtmtm', tm)
-        print('1msmsms', ms)
     else:
         # 每个测试板块置顶消息独立
         board = Board.find(board_id)
@@ -87,8 +84,6 @@ def index():
             top=False
         )
         topic_count = Topic.count(board_id=board_id)
-        print('2tmtmtm', tm)
-        print('2msmsms', ms)
     if topic_count % limit == 0:
         pages = topic_count // limit
     else:

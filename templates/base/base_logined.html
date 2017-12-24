@@ -39,7 +39,7 @@
                             </span>
                         {% endif %}
                     </a></li>
-                    <li><a href="{{ url_for('user.user_detail',username=user.username) }}">设置</a></li>
+                    <li><a href="{{ url_for('user.user_edit') }}">设置</a></li>
                     <li><a href="{{ url_for('user.logout') }}">退出</a></li>
                 </ul>
                 <a class="btn btn-navbar" id="responsive-sidebar-trigger">
@@ -135,8 +135,7 @@
     <div id="footer">
         <div id="footer_main">
             <div class="links">
-                <a class="dark" href="https://cnodejs.org/rss">RSS</a> |
-                <p><a class="dark" href="https://github.com/cnodejs/nodeclub/">Github: www.github.com/snzhaoch</a></p>
+                <p><a class="dark" href="https://github.com/snzhaoch">Github: www.github.com/snzhaoch</a></p>
             </div>
         </div>
     </div>

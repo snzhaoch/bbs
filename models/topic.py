@@ -66,7 +66,7 @@ class Topic(Model):
         """
         查找最近 5 个无回复的话题实例
         """
-        ms = cls.find_all()
+        ms = cls.find_all(test=False)
         ts = []
         for i in range(len(ms)):
             if ms[-i].replies() == []:

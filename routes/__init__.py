@@ -25,6 +25,7 @@ def current_user():
 r = redis.StrictRedis(charset="utf-8", decode_responses=True)
 # csrf_tokens = dict()
 
+
 def csrf_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -38,6 +39,7 @@ def csrf_required(func):
             return func(*args, **kwargs)
         else:
             abort(401)
+
     return wrapper
 
 
@@ -60,6 +62,7 @@ def login_required(func):
             return func(*args, **kwargs)
         else:
             return redirect(url_for('topic.index'))
+
     return wrapper
 
 
@@ -72,6 +75,7 @@ def authority_required(level):
                 return func(*args, **kwargs)
             else:
                 return redirect(url_for('topic.index'))
-        return _wrapper
-    return wrapper
 
+        return _wrapper
+
+    return wrapper
