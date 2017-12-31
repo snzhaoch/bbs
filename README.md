@@ -1,6 +1,7 @@
-DogeMax BBS
+DogeMax BBS 一个灌水，交流，学习的论坛
 ===========================
-一个灌水，交流，学习的论坛
+## 注意
+    为了保证安全，需用户在 bbs 文件夹下手动创建 `config.py`　文件，并在文件中设定 `secret_key` 变量
 ------------------------------------------------
 ## 一键部署方式
     ```Bash
@@ -9,7 +10,6 @@ DogeMax BBS
     ```
 ------------------------------------------------
 ## 论坛简介/演示
-------------------------------------------------
 * 注册登录
     * 注册
         * 用户名过滤，禁止非法字段；有长度限制
@@ -20,7 +20,7 @@ DogeMax BBS
         * 登录失败有原因提示
         * 登陆成功跳转到首页
 
-    ![image](https://github.com/snzhaoch/bbs/blob/master/demo/%E6%B3%A8%E5%86%8C_%E7%99%BB%E5%BD%95.gif)
+    ![image](https://github.com/snzhaoch/demo/blob/master/bbs/%E6%B3%A8%E5%86%8C_%E7%99%BB%E5%BD%95.gif)
 
 
 * 话题
@@ -31,7 +31,7 @@ DogeMax BBS
     * 可以删除
     * 话题有分页功能
 
-    ![image](https://github.com/snzhaoch/bbs/blob/master/demo/%E8%AF%9D%E9%A2%98.gif)
+    ![image](https://github.com/snzhaoch/demo/blob/master/bbs/%E8%AF%9D%E9%A2%98.gif)
 
 
 * 评论（动图与消息提示功能一起展示）
@@ -49,7 +49,7 @@ DogeMax BBS
         * 导航栏消息按钮会显示未读数量
         * 点击消息按钮会显示消息列表，未读消息会用黄色标记，点击链接的话题，黄色标记消失，导航栏提示消失
 
-    ![image](https://github.com/snzhaoch/bbs/blob/master/demo/%E8%AF%84%E8%AE%BA_%40_%E6%B6%88%E6%81%AF%E6%8F%90%E7%A4%BA.gif)
+    ![image](https://github.com/snzhaoch/demo/blob/master/bbs/%E8%AF%84%E8%AE%BA_%40_%E6%B6%88%E6%81%AF%E6%8F%90%E7%A4%BA.gif)
 
 
 * 私信
@@ -60,14 +60,14 @@ DogeMax BBS
         * 收到私信导航栏私信按钮会显示未读书量
         * 点击私信按钮会显示私信列表，未读私信会用黄色标记，可以点击查看对话查找与该用户的历史记录
 
-    ![image](https://github.com/snzhaoch/bbs/blob/master/demo/%E7%A7%81%E4%BF%A1.gif)
+    ![image](https://github.com/snzhaoch/demo/blob/master/bbs/%E7%A7%81%E4%BF%A1.gif)
 
 
 * 搜索
     * 在导航栏的搜索框可以搜索内容与用户
     * 可以查找更多内容，有分页功能
 
-    ![image](https://github.com/snzhaoch/bbs/blob/master/demo/%E6%90%9C%E7%B4%A2.gif)
+    ![image](https://github.com/snzhaoch/demo/blob/master/bbs/%E6%90%9C%E7%B4%A2.gif)
 
 
 * 个人信息编辑
@@ -75,7 +75,7 @@ DogeMax BBS
     * 改个性签名
     * 改头像
 
-    ![image](https://github.com/snzhaoch/bbs/blob/master/demo/%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E7%BC%96%E8%BE%91.gif)
+    ![image](https://github.com/snzhaoch/demo/blob/master/bbs/%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E7%BC%96%E8%BE%91.gif)
 
 
 * 版块管理
@@ -87,7 +87,7 @@ DogeMax BBS
         - 测试板块以外的置顶帖会在其他版块共享，但不会出现在测试板块
         - 测试板块置顶帖也只在测试板块存在
 
-    ![image](https://github.com/snzhaoch/bbs/blob/master/demo/%E6%9D%BF%E5%9D%97%E7%AE%A1%E7%90%86.gif)
+    ![image](https://github.com/snzhaoch/demo/blob/master/bbs/%E6%9D%BF%E5%9D%97%E7%AE%A1%E7%90%86.gif)
 
 
 * 用户权限管理
@@ -105,4 +105,4 @@ DogeMax BBS
         * 删除回复
         * 设置置顶话题
 
-    ![image](https://github.com/snzhaoch/bbs/blob/master/demo/%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.gif)
+    ![image](https://github.com/snzhaoch/demo/blob/master/bbs/%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.gif)
