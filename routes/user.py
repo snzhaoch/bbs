@@ -273,7 +273,7 @@ def valid_suffix(suffix):
     return suffix in valid_type
 
 
-@main.route('/image/add', methods=["POST"])
+@main.route('/add_img', methods=["POST"])
 @csrf_required
 def add_img():
     """
